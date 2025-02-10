@@ -1,0 +1,12 @@
+packages:
+  windows:
+    chocolatey: [
+      "chezmoi",
+      "git",
+      "dotnet-sdk",
+      "ripgrep",
+      "wezterm",
+      "lazygit",
+      "vale",
+      "neovim"
+    ] 
