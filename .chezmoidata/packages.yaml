@@ -8,5 +8,9 @@ packages:
       "wezterm",
       "lazygit",
       "vale",
+      "make",
+      "gzip",
+      "fd",
+      "unzip",
       "neovim"
     ] 
