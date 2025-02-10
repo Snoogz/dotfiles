@@ -24,4 +24,19 @@ function Initialize-Profile
 			Write-Host "Failed to import: $module. $_"
 		}
 	}
+
+	# Shell integration
+	$TermApp = $env:TERM_PROGRAM
+
+	# Autocomplete
+	# chezmoi
+	if (Get-Command chezmoi -ErrorAction SilentlyContinue)
+	{
+		Invoke-Expression(& { ( chezmoi completion poweshell | Out-String ) } )
+	}
+	
+	if (Test-IsAdmin)
+	{
+		$env:ISELEVATEDSESSION = $true
+	}
 }
