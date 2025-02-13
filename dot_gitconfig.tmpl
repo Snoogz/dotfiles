@@ -1,0 +1,32 @@
+[user]
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
+
+[http]
+	sslBackend = schannel
+
+[core]
+	editor = nvim
+	pager = delta
+	autocrlf = true
+	longpaths = true
+
+[credential]
+	helper = wincred
+
+[push]
+	default = current
+	autoSetupRemote = true
+
+[pull]
+	rebase = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	dark = true
+
+[merge]
+	conflictstyle = zdiff3

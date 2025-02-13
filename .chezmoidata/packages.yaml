@@ -12,5 +12,6 @@ packages:
       "gzip",
       "fd",
       "unzip",
-      "neovim"
+      "neovim",
+      "starship"
     ] 
