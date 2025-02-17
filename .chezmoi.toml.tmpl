@@ -3,8 +3,12 @@
 [data]
 	name = {{ $name | quote }}
 	email = {{ $email | quote }}
+[cd]
+	command = "pwsh"
+	args = ["-NoProfile", "-NoLogo"]
 [edit]
 	command = "nvim"
+	args = ["-f", "$FILENAME"]
 [merge]
 	command = "delta"
 [diff]

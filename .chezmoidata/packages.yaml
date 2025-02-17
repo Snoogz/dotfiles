@@ -14,4 +14,17 @@ packages:
       "unzip",
       "neovim",
       "starship"
-    ] 
+    ]
+    ps_modules:
+      Pester: 
+        Repository: PSGallery
+        Version: "[0.0.0,]"
+      Posh-Git:
+        Repository: PSGallery
+        Version: "[0.0.0,]"
+      PSReadLine:
+        Repository: PSGallery
+        Version: "[0.0.0,]"
+      Terminal-Icons:
+        Repository: PSGallery
+        Version: "[0.0.0,]"
