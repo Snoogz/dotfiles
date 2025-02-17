@@ -1,0 +1,56 @@
+$global:profile_initialized = $false
+$DataHome = if ($ENV:XDG_CONFIG_HOME) {
+    $ENV:XDG_DATA_HOME
+} else {
+    [IO.Path]::Combine($HOME, ".local", "share")
+}
+$ConfigHome = if ($ENV:XDG_CONFIG_HOME) {
+    $ENV:XDG_CONFIG_HOME
+} else {
+    [IO.Path]::Combine($HOME, ".config")
+}
+$Interactive = Convert-Path "$DataHome/powershell/Scripts/Initialize-Profile.ps1"
+if ($Host.UI.RawUI.KeyAvailable) {
+    $Controlled = $false
+    while ($Host.UI.RawUI.KeyAvailable -and ($key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown,IncludeKeyUp"))) {
+        if (!$Controlled -and $key.ControlKeyState -match "LeftCtrlPressed") {
+            $Controlled = $true
+        }
+    }
+    if ($Controlled) {
+        Write-Host "Skipping Interactive Config. To complete, run:`n. `"$Interactive`"`nInitialize-Profile" -ForegroundColor Yellow
+        if ($PSVersionTable.PSVersion.Major -gt 5) {
+            function prompt { "`e[36m$($MyInvocation.HistoryId)`e[37m $pwd`e[0m`n❯" }
+        } else {
+            function prompt { "$([char]27)[36m$($MyInvocation.HistoryId)$([char]27)[37m $pwd$([char]27)[0m`n$([char]0x276f)" }
+        }
+        return
+    }
+}
+# Load extra functions
+@(
+  "WorkFunctions.ps1",
+  "Functions.ps1",
+  "Initialize-Profile.ps1"
+) | ForEach-Object {
+  $path = "$DataHome/powershell/Scripts/$_"
+  if (Test-Path $path -ErrorAction SilentlyContinue) {
+    . (Convert-Path $path)
+  }
+}
+# Starship overwrite the prompt. Do this so its available on first open.
+# There is a cost for this but it should be minimal.
+if (Get-Command 'starship' -ErrorAction SilentlyContinue) {
+  Invoke-Expression (&starship init powershell)
+  function Invoke-Starship-PreCommand {
+    if ($global:profile_initialized -ne $true) {
+      $global:profile_initialized = $true
+      Initialize-Profile
+    }
+  }
+  # Update previous prompt with simpler prompt 
+  function Invoke-Starship-TransientFunction {
+    &starship prompt --profile short
+  }
+  Enable-TransientPrompt
+}
