@@ -16,8 +16,8 @@ end
 config.disable_default_key_bindings = true
 key_mappings = {
 	{ key = "w", mods = "SHIFT|CTRL", action = act.CloseCurrentTab({confirm = true}) },
-	{ key = "Copy", mods = "NONE", action = act.CopyTo("Clipboard") },
-	{ key = "Paste", mods = "NONE", action = act.PasteFrom("Clipboard") },
+	{ key = "c", mods = "SHIFT|CTRL", action = act.CopyTo("Clipboard") },
+	{ key = "p", mods = "SHIFT|CTRL", action = act.PasteFrom("Clipboard") },
 }
 
 mouse_bindings = {
